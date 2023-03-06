@@ -1,3 +1,6 @@
+<script>
+    import '../app.css';
+</script>
 
 <header>
     <h1>My App</h1>
@@ -12,11 +15,8 @@
 <style>
     header {
         background: #eee;
-        padding: 0;
     }
     footer {
-
         background: #eee;
-        padding: 1em;
     }
 </style>
