@@ -1,14 +1,15 @@
 <script>
     import { page } from "$app/stores"
     // import supabase from '$lib/supabase'
-    // async function getData() {
-    //     const { data, error } = await supabase
-    //         .from('logs')
-    //         .select()
-    //     if (error) throw new Error(error.message)
+    const supabase = $page.data.supabase;
+    async function getData() {
+        const { data, error } = await supabase
+            .from('logs')
+            .select()
+        if (error) throw new Error(error.message)
         
-    //     return data
-    // }
+        return data
+    }
 
     const username = $page.data.session? $page.data.session.user?.name: 'Guest';
 
@@ -25,7 +26,7 @@
 </div>
 
 <!-- <h1>My favorite games</h1> -->
-<!-- {#await getData()}
+{#await getData()}
   <p>Fetching data...</p>
 {:then data}
   {#each data as row}
@@ -34,5 +35,5 @@
 {:catch error}
   <p>Something went wrong while fetching the data:</p>
   <pre>{error}</pre>
-{/await} -->
+{/await}
 
