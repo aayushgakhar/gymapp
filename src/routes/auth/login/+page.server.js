@@ -1,27 +1,56 @@
-import { AuthApiError } from "@supabase/supabase-js"
-import { fail, redirect } from "@sveltejs/kit"
-// import type { Actions } from "./$types"
+// import type { Actions } from './$types';
+import { invalid, redirect } from '@sveltejs/kit';
+import { AuthApiError } from '@supabase/supabase-js';
 
 export const actions = {
-	login: async ({ request, locals }) => {
-		const body = Object.fromEntries(await request.formData())
+  signin: async ({ request, locals: { supabase } }) => {
+    const formData = await request.formData();
 
-		const { data, error: err } = await locals.sb.auth.signInWithPassword({
-			email: body.email,
-			password: body.password,
-		})
+    const email = formData.get('email');
+    const password = formData.get('password');
 
-		if (err) {
-			if (err instanceof AuthApiError && err.status === 400) {
-				return fail(400, {
-					error: "Invalid credentials",
-				})
-			}
-			return fail(500, {
-				message: "Server error. Try again later.",
-			})
-		}
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-		throw redirect(303, "/")
+    if (error) {
+      if (error instanceof AuthApiError && error.status === 400) {
+        return invalid(400, {
+          error: 'Invalid credentials.',
+          values: {
+            email
+          }
+        });
+      }
+      return invalid(500, {
+        error: 'Server error. Try again later.',
+        values: {
+          email
+        }
+      });
+    }
+
+    throw redirect(303, '/dashboard');
 	},
-}
+
+	signInWithGitHub: async({locals: { supabase }}) => {
+		const { data,error } = await supabase.auth.signInWithOAuth({
+			provider: 'github',
+		})
+		// console.log(data)
+		// if (error) {
+		// 	console.log(error)
+		// 	if (error instanceof AuthApiError && error.status === 400) {
+		// 		return invalid(400, {
+		// 			error: 'Invalid credentials.',
+		// 		});
+		// 	}
+		// 	return invalid(500, {
+		// 		error: 'Server error. Try again later.',
+		// 	});
+		// }
+
+		// throw redirect(303, '/dashboard');
+	},
+};

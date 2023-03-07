@@ -1,5 +1,10 @@
+<svelte:head>
+    <title>Gym app</title> 
+</svelte:head>
+
 <script>
     import '../app.css';
+    import '../app.postcss'
     import { page } from "$app/stores"
 </script>
 
@@ -30,10 +35,11 @@
                 $page.data.session.user?.name}</strong
             >
           </span>
-          <a href="/auth/signout" class="button" data-sveltekit-preload-data="off">Sign out</a>
+          <a href="/auth/logout" class="button" data-sveltekit-preload-data="off">Sign out</a>
         {:else}
           <span class="notSignedInText">You are not signed in</span>
-          <a href="/auth/signin" class="buttonPrimary" data-sveltekit-preload-data="off">Sign in</a>
+          <a href="/auth/login" class="buttonPrimary" data-sveltekit-preload-data="off">Sign in</a>
+          <a href="/auth/register" class="buttonPrimary" data-sveltekit-preload-data="off">Sign up</a>
         {/if}
       </p>
     </div>
@@ -46,6 +52,8 @@
   </header>
   <slot />
 </div>
+
+
 <style>
     header {
         background: #eee;
