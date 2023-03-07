@@ -11,10 +11,13 @@
 
 
 {#if $page.data.session}
-<h1>Protected page</h1>
+<h1>dashboard</h1>
 <p>
-  This is a protected content. You can access this content because you are
-  signed in.
+  {#each muscles as muscle}
+    <div>
+    <a href="/dashboard/{muscle}">{muscle}</a>
+    </div>
+{/each}
 </p>
 <p>Session expiry: {$page.data.session?.expires}</p>
 {:else}
@@ -26,10 +29,4 @@
 </p>
 {/if}
 
-<h3>dashboard</h3>
 
-{#each muscles as muscle}
-    <div>
-    <a href="/dashboard/{muscle}">{muscle}</a>
-    </div>
-{/each}

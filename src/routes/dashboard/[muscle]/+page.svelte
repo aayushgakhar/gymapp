@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
 
-    const muscle = $page.params.muscle;
+    $: muscle = $page.params.muscle;
     const exercises = {
         arms:[
             'bicep curls',
@@ -40,12 +40,35 @@
         ]
 
     }
+
+    function validateMuscle(muscle){
+        if(exercises.hasOwnProperty(muscle)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function convertEtoL(exercise){
+        return exercise.replace(/ /g, '-');
+    }
+    
 </script>
 
-<h3>muscle: {muscle}</h3>
+{#if validateMuscle(muscle)}
+    <h3>muscle: {muscle}</h3>
 
-{#each exercises[muscle] as exercise}
-    <div>
-    <a href="/dashboard/{muscle}/{exercise}">{exercise}</a>
-    </div>
-{/each}
+    {#each exercises[muscle] as exercise}
+        <div>
+        <a href="/dashboard/{muscle}/{convertEtoL(exercise)}">{exercise}</a>
+        </div>
+    {/each}
+{:else}
+        <h1>No muscle named {muscle}</h1>
+        <h3>Try these:</h3>
+        {#each Object.entries(exercises) as [muscle, exercises]}
+        <div>
+        <a  href="/dashboard/{muscle}">{muscle}</a>
+        </div>
+    {/each}
+{/if}
