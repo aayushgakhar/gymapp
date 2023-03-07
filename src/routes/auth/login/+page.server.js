@@ -1,5 +1,5 @@
 // import type { Actions } from './$types';
-import { invalid, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { AuthApiError } from '@supabase/supabase-js';
 
 export const actions = {
@@ -16,26 +16,26 @@ export const actions = {
 
     if (error) {
       if (error instanceof AuthApiError && error.status === 400) {
-        return invalid(400, {
-          error: 'Invalid credentials.',
-          values: {
-            email
-          }
-        });
+        return fail(400, {
+					error: 'Invalid credentials.',
+					values: {
+						email
+					}
+				});
       }
-      return invalid(500, {
-        error: 'Server error. Try again later.',
-        values: {
-          email
-        }
-      });
+      return fail(500, {
+				error: 'Server error. Try again later.',
+				values: {
+					email
+				}
+			});
     }
 
     throw redirect(303, '/dashboard');
 	},
 
 	signInWithGitHub: async({locals: { supabase }}) => {
-		const { data,error } = await supabase.auth.signInWithOAuth({
+		await supabase.auth.signInWithOAuth({
 			provider: 'github',
 		})
 		// console.log(data)
