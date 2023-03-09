@@ -49,10 +49,10 @@ export const actions = {
 			});
 		}
 	},
-	register: async ({ request, locals }) => {
+	register: async ({ request, locals: { supabase } }) => {
 		const body = Object.fromEntries(await request.formData());
 
-		const { error: err } = await locals.sb.auth.signUp({
+		const { error: err } = await supabase.auth.signUp({
 			email: body.email,
 			password: body.password
 		});
