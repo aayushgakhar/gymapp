@@ -1,173 +1,75 @@
-<svelte:head>
-    <title>Gym app</title> 
-</svelte:head>
-
 <script>
-    import '../app.css';
-    import '../app.postcss'
-    import { page } from "$app/stores"
+	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
+	import '@skeletonlabs/skeleton/styles/all.css';
+	import '../app.postcss';
+
+	import { AppShell, AppBar, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	export let data;
+
+	$: ({ supabase } = data);
+
+	onMount(() => {
+		const {
+			data: { subscription }
+		} = supabase.auth.onAuthStateChange(() => {
+			invalidate('supabase:auth');
+		});
+
+		return () => subscription.unsubscribe();
+	});
 </script>
 
-<!-- <header>
-    <h1>My App</h1>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/profile">Profile</a>
-    </nav>
-</header>
-<slot></slot>
-<footer>Footer</footer> -->
-<div>
-  <header>
-    <div class="signedInStatus">
-      <p class="nojs-show loaded">
-        {#if $page.data.session}
-          {#if $page.data.session.user?.image}
-            <span
-              style="background-image: url('{$page.data.session.user.image}')"
-              class="avatar"
-            />
-          {/if}
-          <span class="signedInText">
-            <small>Signed in as</small><br />
-            <strong
-              >{$page.data.session.user?.email ??
-                $page.data.session.user?.name}</strong
-            >
-          </span>
-          <a href="/auth/logout" class="button" data-sveltekit-preload-data="off">Sign out</a>
-        {:else}
-          <span class="notSignedInText">You are not signed in</span>
-          <a href="/auth/login" class="buttonPrimary" data-sveltekit-preload-data="off">Sign in</a>
-          <a href="/auth/register" class="buttonPrimary" data-sveltekit-preload-data="off">Sign up</a>
-        {/if}
-      </p>
-    </div>
-    <nav>
-      <ul class="navItems">
-        <li class="navItem"><a href="/">Home</a></li>
-        <li class="navItem"><a href="/dashboard">Dashboard</a></li>
-      </ul>
-    </nav>
-  </header>
-  <slot />
-</div>
+<svelte:head>
+	<title>Gym app</title>
+</svelte:head>
 
+<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+	<svelte:fragment slot="header">
+		<AppBar>
+			<svelte:fragment slot="lead">(icon)</svelte:fragment>
+			<svelte:fragment slot="trail">
+				<section>
+					<LightSwitch />
+				</section>
+				{#if $page.data.session}
+					<a class="btn variant-ringed-primary" href="/auth/logout"> Logout </a>
+					{#if $page.data.session?.user?.user_metadata?.avatar_url}
+						<a href="/profile">
+							<Avatar src={$page.data.session?.user?.user_metadata?.avatar_url} />
+						</a>
+					{/if}
+				{:else}
+					<a class="btn variant-ringed-primary" href="/auth/login"> Sign In </a>
+					<a class="btn variant-filled-primary" href="/auth/register"> Sign Up </a>
+				{/if}
+			</svelte:fragment>
+			<svelte:fragment slot="headline">
+				<a href="/">GymApp</a>
+			</svelte:fragment>
+		</AppBar>
+	</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft">
+		<nav class="list-nav">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/profile">Profile</a></li>
+			</ul>
+		</nav>
+	</svelte:fragment>
+	<!-- <svelte:fragment slot='sidebarRight'>Sidebar Right</svelte:fragment> -->
+	<!-- <svelte:fragment slot='pageHeader'>Page Header</svelte:fragment> -->
+	<!-- Router Slot -->
+	<div class="container">
+		<slot />
+	</div>
+	<!-- ---- / ---- -->
+	<!-- <svelte:fragment slot='pageFooter'>Page Footer</svelte:fragment> -->
+	<svelte:fragment slot="footer">Footer</svelte:fragment>
+</AppShell>
 
 <style>
-    header {
-        background: #eee;
-    }
-    footer {
-        background: #eee;
-    }
-  :global(body) {
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";
-    padding: 0 1rem 1rem 1rem;
-    max-width: 680px;
-    margin: 0 auto;
-    background: #fff;
-    color: #333;
-  }
-  :global(li),
-  :global(p) {
-    line-height: 1.5rem;
-  }
-  :global(a) {
-    font-weight: 500;
-  }
-  :global(hr) {
-    border: 1px solid #ddd;
-  }
-  :global(iframe) {
-    background: #ccc;
-    border: 1px solid #ccc;
-    height: 10rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    filter: invert(1);
-  }
-  .nojs-show {
-    opacity: 1;
-    top: 0;
-  }
-  .signedInStatus {
-    display: block;
-    min-height: 4rem;
-    width: 100%;
-  }
-  .loaded {
-    position: relative;
-    top: 0;
-    opacity: 1;
-    overflow: hidden;
-    border-radius: 0 0 0.6rem 0.6rem;
-    padding: 0.6rem 1rem;
-    margin: 0;
-    background-color: rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in;
-  }
-  .signedInText,
-  .notSignedInText {
-    position: absolute;
-    padding-top: 0.8rem;
-    left: 1rem;
-    right: 6.5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inherit;
-    z-index: 1;
-    line-height: 1.3rem;
-  }
-  .signedInText {
-    padding-top: 0rem;
-    left: 4.6rem;
-  }
-  .avatar {
-    border-radius: 2rem;
-    float: left;
-    height: 2.8rem;
-    width: 2.8rem;
-    background-color: white;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  .button,
-  .buttonPrimary {
-    float: right;
-    margin-right: -0.4rem;
-    font-weight: 500;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.4rem;
-    padding: 0.7rem 0.8rem;
-    position: relative;
-    z-index: 10;
-    background-color: transparent;
-    color: #555;
-  }
-  .buttonPrimary {
-    background-color: #346df1;
-    border-color: #346df1;
-    color: #fff;
-    text-decoration: none;
-    padding: 0.7rem 1.4rem;
-  }
-  .buttonPrimary:hover {
-    box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.2);
-  }
-  .navItems {
-    margin-bottom: 2rem;
-    padding: 0;
-    list-style: none;
-  }
-  .navItem {
-    display: inline-block;
-    margin-right: 1rem;
-  }
 </style>
