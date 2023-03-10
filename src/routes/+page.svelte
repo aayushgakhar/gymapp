@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-	// import supabase from '$lib/supabase'
 	const supabase = $page.data.supabase;
 	async function getData() {
 		const { data, error } = await supabase.from('logs').select();

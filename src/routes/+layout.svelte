@@ -3,7 +3,7 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 
-	import { AppShell, AppBar, Avatar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Avatar, LightSwitch, Toast } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
@@ -27,7 +27,9 @@
 	<title>Gym app</title>
 </svelte:head>
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-56 p-4">
+<Toast />
+
+<AppShell slotSidebarLeft="bg-surface-500/5 p-4">
 	<svelte:fragment slot="header">
 		<AppBar>
 			<svelte:fragment slot="lead">(icon)</svelte:fragment>

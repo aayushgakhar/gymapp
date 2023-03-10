@@ -8,18 +8,22 @@ export const actions = {
 
 		const email = formData.get('email');
 		const password = formData.get('password');
+		
 
 		const { error } = await supabase.auth.signInWithPassword({
 			email,
 			password
 		});
+		
 
 		if (error) {
+			
 			if (error instanceof AuthApiError && error.status === 400) {
 				return fail(400, {
-					error: 'Invalid credentials.',
+					error: error.message,
 					values: {
-						email
+						email,
+						
 					}
 				});
 			}
@@ -31,7 +35,7 @@ export const actions = {
 			});
 		}
 
-		throw redirect(303, '/dashboard');
+		throw redirect(303, '/');
 	},
 
 	signInWithGitHub: async ({ locals: { supabase } }) => {
@@ -48,6 +52,7 @@ export const actions = {
 				error: 'Server error. Try again later.'
 			});
 		}
+		throw redirect(303, '/');
 	},
 	register: async ({ request, locals: { supabase } }) => {
 		const body = Object.fromEntries(await request.formData());
@@ -68,7 +73,7 @@ export const actions = {
 			});
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, '/auth/verify');
 	},
 	signout: async ({ locals: { supabase } }) => {
 		await supabase.auth.signOut();
