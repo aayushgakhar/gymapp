@@ -60,16 +60,20 @@
 				
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<section>
+				<section class="hidden md:inline-block">
 					<LightSwitch />
 				</section>
 				{#if $page.data.session}
 					<a class="btn variant-ringed-primary" href="/auth/logout"> Logout </a>
-					{#if $page.data.session?.user?.user_metadata?.avatar_url}
+					
 						<a href="/profile">
+							{#if $page.data.session?.user?.user_metadata?.avatar_url}
 							<Avatar src={$page.data.session?.user?.user_metadata?.avatar_url} />
+							{:else}
+							<Avatar initials={$page.data.session?.user?.user_metadata?.name}/>
+							{/if}
 						</a>
-					{/if}
+					
 				{:else}
 					<a class="btn variant-ringed-primary" href="/auth/login"> Sign In </a>
 					<a class="btn variant-filled-primary" href="/auth/register"> Sign Up </a>
@@ -83,12 +87,12 @@
 	<!-- <svelte:fragment slot='sidebarRight'>Sidebar Right</svelte:fragment> -->
 	<!-- <svelte:fragment slot='pageHeader'>Page Header</svelte:fragment> -->
 	<!-- Router Slot -->
-	<div class="container m-10">
+	<div class="container p-5 md:p-10">
 		<slot />
 	</div>
 	<!-- ---- / ---- -->
 	<!-- <svelte:fragment slot='pageFooter'>Page Footer</svelte:fragment> -->
-	<svelte:fragment slot="footer">Footer</svelte:fragment>
+	<!-- <svelte:fragment slot="footer">© gakhar, 2023</svelte:fragment> -->
 </AppShell>
 
 <style>

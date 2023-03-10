@@ -47,7 +47,7 @@
 </script>
 
 
-<main class="p-10 h-full">
+<main class=" h-full">
 	{#if viewName === 'login'}
 		{#if $page.data.session}
 			<p>You are logged in.</p>
@@ -102,7 +102,7 @@
 			<a href="/dashboard">Dashboard</a>
 		{:else}
 			<h3>Register</h3>
-			<form class='m-5' action="?/register" method="POST">
+			<form class='mt-5' action="?/register" method="POST">
 				<label class="label" for=""> Email </label>
 				<input class="input" type="text" name="email" />
 				<label class="label" for=""> Password </label>

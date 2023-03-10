@@ -2,7 +2,7 @@
     import {page} from '$app/stores';
 </script>
 
-<div class='container p-10'>
+<div class='container'>
 {#if $page.data.session}
 	<h1>Profile</h1>
 {:else}

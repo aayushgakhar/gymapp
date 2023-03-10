@@ -11,7 +11,7 @@
 	const username = $page.data.session ? $page.data.session.user?.user_metadata?.name : 'Guest';
 </script>
 
-<div class="p-5">
+<div class="">
 	{#if $page.data.session}
 		<h3>Hello {username}</h3>
 		<a href="/dashboard">Dashboard</a>
