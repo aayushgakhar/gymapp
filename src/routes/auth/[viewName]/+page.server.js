@@ -2,8 +2,23 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { AuthApiError } from '@supabase/supabase-js';
 
+export const load = async ({ url, locals: { getSession } }) => {
+	const session = await getSession();
+
+	// if the user is already logged in return them to the account page
+	if (session) {
+		throw redirect(303, '/account');
+	}
+
+	return { url: url.origin };
+};
+
 export const actions = {
-	signin: async ({ request, locals: { supabase } }) => {
+	signin: async ({ request, locals: { supabase, getSession } }) => {
+		const session = await getSession();
+		if (session) {
+			throw redirect(303, '/');
+		}
 		const formData = await request.formData();
 
 		const email = formData.get('email');
@@ -38,7 +53,11 @@ export const actions = {
 		throw redirect(303, '/');
 	},
 
-	signInWithGitHub: async ({ locals: { supabase } }) => {
+	signInWithGitHub: async ({ locals: { supabase, getSession } }) => {
+		const session = await getSession();
+		if (session) {
+			throw redirect(303, '/');
+		}
 		const { error } = await supabase.auth.signInWithOAuth({
 			provider: 'github'
 		});
@@ -54,12 +73,22 @@ export const actions = {
 		}
 		throw redirect(303, '/');
 	},
-	register: async ({ request, locals: { supabase } }) => {
+	register: async ({ request, locals: { supabase, getSession } }) => {
+		const session = await getSession();
+		if (session) {
+			throw redirect(303, '/');
+		}
 		const body = Object.fromEntries(await request.formData());
 
 		const { error: err } = await supabase.auth.signUp({
 			email: body.email,
-			password: body.password
+			password: body.password,
+			options: {
+				data: {
+					name: body.name,
+					
+				}
+			}
 		});
 
 		if (err) {
