@@ -3,10 +3,12 @@
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 
-	import { AppShell, AppBar, Avatar, LightSwitch, Toast } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Avatar, LightSwitch, Toast, Drawer, drawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import Navigation from '../lib/Navigation.svelte';
+	import Icon from '@iconify/svelte';
 
 	export let data;
 
@@ -27,12 +29,36 @@
 	<title>Gym app</title>
 </svelte:head>
 
+<Drawer>
+	<Navigation />
+</Drawer>
 <Toast />
 
-<AppShell slotSidebarLeft="bg-surface-500/5 p-4">
+<AppShell slotSidebarLeft="bg-surface-500/5 w-0 md:w-56">
 	<svelte:fragment slot="header">
 		<AppBar>
-			<svelte:fragment slot="lead">(icon)</svelte:fragment>
+			<svelte:fragment slot="lead">
+				<div class="flex items-center">
+					<button class="md:hidden btn btn-sm mr-4" on:click={()=>drawerStore.open({})}>
+						<span>
+							<svg viewBox="0 0 100 80" class="fill-token w-4 h-4">
+								<rect width="100" height="20" />
+								<rect y="30" width="100" height="20" />
+								<rect y="60" width="100" height="20" />
+							</svg>
+						</span>
+					</button>
+					
+					<strong class="text-xl uppercase">
+						
+						<a href="/"> 
+							<Icon class='text-4xl inline-block' icon='healthicons:gym'/>
+							<span class='hidden md:inline-block'>GymApp</span>
+						</a>
+					</strong>
+				</div>
+				
+			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<section>
 					<LightSwitch />
@@ -49,23 +75,15 @@
 					<a class="btn variant-filled-primary" href="/auth/register"> Sign Up </a>
 				{/if}
 			</svelte:fragment>
-			<svelte:fragment slot="headline">
-				<a href="/">GymApp</a>
-			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<svelte:fragment slot="sidebarLeft">
-		<nav class="list-nav">
-			<ul>
-				<li><a href="/">Home</a></li>
-				<li><a href="/profile">Profile</a></li>
-			</ul>
-		</nav>
+		<Navigation/>
 	</svelte:fragment>
 	<!-- <svelte:fragment slot='sidebarRight'>Sidebar Right</svelte:fragment> -->
 	<!-- <svelte:fragment slot='pageHeader'>Page Header</svelte:fragment> -->
 	<!-- Router Slot -->
-	<div class="container">
+	<div class="container m-10">
 		<slot />
 	</div>
 	<!-- ---- / ---- -->

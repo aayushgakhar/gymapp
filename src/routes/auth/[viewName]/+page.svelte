@@ -94,7 +94,7 @@
 			</form>
 		{:else}
 			<p>You are logged out.</p>
-			<a class="btn variant-filled" href="/">Home</a>
+			<a class="btn variant-filled mt-5" href="/">Home</a>
 		{/if}
 	{:else if viewName === 'register'}
 		{#if $page.data.session}

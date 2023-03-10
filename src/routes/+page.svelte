@@ -11,7 +11,7 @@
 	const username = $page.data.session ? $page.data.session.user?.user_metadata?.name : 'Guest';
 </script>
 
-<div>
+<div class="p-5">
 	{#if $page.data.session}
 		<h3>Hello {username}</h3>
 		<a href="/dashboard">Dashboard</a>
@@ -22,12 +22,17 @@
 			<a href="/auth/login">login</a>
 		</p>
 	{/if}
-</div>
+
 
 <!-- <h1>My favorite games</h1> -->
 {#await getData()}
-	<p>Fetching data...</p>
+<div class="p-4 space-y-4" class:animate-pulse={true}>
+	<div class="placeholder animate-pulse" />
+	<div class="placeholder animate-pulse" />
+	<div class="placeholder animate-pulse" />
+	</div>
 {:then data}
+	<p>test data:</p>
 	{#each data as row}
 		<li>{row.name}</li>
 	{/each}
@@ -35,3 +40,5 @@
 	<p>Something went wrong while fetching the data:</p>
 	<pre>{error}</pre>
 {/await}
+
+</div>

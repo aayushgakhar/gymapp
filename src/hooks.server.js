@@ -51,13 +51,13 @@ export const handle = async ({ event, resolve }) => {
 			throw redirect(303, '/');
 		}
   }
-  if (event.url.pathname.startsWith('/auth/logout')) {
-		const session = await event.locals.getSession();
-		if (!session) {
-			// the user is not signed in
-			throw redirect(303, '/');
-		}
-	}
+  // if (event.url.pathname.startsWith('/auth/logout')) {
+	// 	const session = await event.locals.getSession();
+	// 	if (!session) {
+	// 		// the user is not signed in
+	// 		throw redirect(303, '/');
+	// 	}
+	// }
 
 	return resolve(event, {
 		/**
