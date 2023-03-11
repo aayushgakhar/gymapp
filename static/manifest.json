@@ -1,6 +1,6 @@
 {
-	"short_name": "svelte-pwa",
-	"name": "svelte-test-pwa",
+	"short_name": "Gymapp",
+	"name": "Gymapp",
 	"start_url": "/",
 	"icons": [
 		{
@@ -16,19 +16,19 @@
 	"theme_color": "#3367D6",
 	"shortcuts": [
 		{
-			"name": "How's weather today?",
-			"short_name": "Today",
-			"description": "View weather information for today",
-			"url": "/today?source=pwa",
+			"name": "Dashboard",
+			"short_name": "Dashboard",
+			"description": "Open dashboard",
+			"url": "/dashboard?source=pwa",
 			"icons": [{ "src": "icons/android-chrome-192x192.png", "sizes": "192x192" }]
 		},
 		{
-			"name": "How's weather tomorrow?",
-			"short_name": "Tomorrow",
-			"description": "View weather information for tomorrow",
-			"url": "/tomorrow?source=pwa",
+			"name": "Profile",
+			"short_name": "Profile",
+			"description": "Open profile",
+			"url": "/profile?source=pwa",
 			"icons": [{ "src": "icons/android-chrome-192x192.png", "sizes": "192x192" }]
 		}
 	],
-	"description": "Lofi to lofi beats, while using the scratchpad to list down tasks and thoughts"
+	"description": "Record your gym workouts and track your progress."
 }
