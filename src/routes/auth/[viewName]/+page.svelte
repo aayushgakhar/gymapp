@@ -185,7 +185,7 @@
 			}}
 			view={_view}
 			showLinks={false}
-			redirectTo={`${data.url}/logging-in?redirect=/`}
+			redirectTo={`${data.url}`}
 		/>
 	{/if}
 </main>

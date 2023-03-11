@@ -6,15 +6,15 @@ export const load = async ({ url, locals: { getSession } }) => {
 	const session = await getSession();
 
 	// if the user is already logged in return them to the account page
-	if (session) {
-		throw redirect(303, '/account');
+	if (!url.pathname.startsWith('/auth/logout') && session) {
+		throw redirect(303, '/');
 	}
-
 	return { url: url.origin };
+	
 };
 
 export const actions = {
-	signin: async ({ request, locals: { supabase, getSession } }) => {
+	signin: async ({ url, request, locals: { supabase, getSession } }) => {
 		const session = await getSession();
 		if (session) {
 			throw redirect(303, '/');
@@ -27,7 +27,10 @@ export const actions = {
 
 		const { error } = await supabase.auth.signInWithPassword({
 			email,
-			password
+			password,
+			options: {
+				redirectTo: url.origin
+			}
 		});
 		
 
