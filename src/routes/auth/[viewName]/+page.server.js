@@ -85,8 +85,7 @@ export const actions = {
 			password: body.password,
 			options: {
 				data: {
-					name: body.name,
-					
+					full_name: body.name
 				}
 			}
 		});
