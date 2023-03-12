@@ -10,7 +10,6 @@ export const load = async ({ url, locals: { getSession } }) => {
 		throw redirect(303, '/');
 	}
 	return { url: url.origin };
-	
 };
 
 export const actions = {
@@ -23,7 +22,6 @@ export const actions = {
 
 		const email = formData.get('email');
 		const password = formData.get('password');
-		
 
 		const { error } = await supabase.auth.signInWithPassword({
 			email,
@@ -32,16 +30,13 @@ export const actions = {
 				redirectTo: url.origin
 			}
 		});
-		
 
 		if (error) {
-			
 			if (error instanceof AuthApiError && error.status === 400) {
 				return fail(400, {
 					error: error.message,
 					values: {
-						email,
-						
+						email
 					}
 				});
 			}
@@ -56,13 +51,16 @@ export const actions = {
 		throw redirect(303, '/');
 	},
 
-	signInWithGitHub: async ({ locals: { supabase, getSession } }) => {
+	signInWithGitHub: async ({ url, locals: { supabase, getSession } }) => {
 		const session = await getSession();
 		if (session) {
 			throw redirect(303, '/');
 		}
 		const { error } = await supabase.auth.signInWithOAuth({
-			provider: 'github'
+			provider: 'github',
+			options: {
+				redirectTo: url.origin
+			}
 		});
 		if (error) {
 			if (error instanceof AuthApiError && error.status === 400) {

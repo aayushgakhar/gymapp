@@ -20,16 +20,16 @@ export const handle = async ({ event, resolve }) => {
 			data: { session }
 		} = await event.locals.supabase.auth.getSession();
 		return session;
-  };
-  
-  if (event.url.pathname.startsWith('/dashboard') || event.url.pathname.startsWith('/profile')) {
+	};
+
+	if (event.url.pathname.startsWith('/dashboard') || event.url.pathname.startsWith('/profile')) {
 		const session = await event.locals.getSession();
 		if (!session) {
 			// the user is not signed in
 			throw redirect(303, '/');
 		}
-  }
-  // if (event.url.pathname.startsWith('/auth/logout')) {
+	}
+	// if (event.url.pathname.startsWith('/auth/logout')) {
 	// 	const session = await event.locals.getSession();
 	// 	if (!session) {
 	// 		// the user is not signed in

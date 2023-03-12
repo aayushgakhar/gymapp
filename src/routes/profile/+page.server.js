@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 // import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async ({ locals: { supabase, getSession } }) => {
+export const load = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
 	if (!session) {
@@ -15,7 +15,7 @@ export const load = (async ({ locals: { supabase, getSession } }) => {
 		.single();
 
 	return { session, profile };
-});
+};
 
 export const actions = {
 	update: async ({ request, locals: { supabase, getSession } }) => {
@@ -24,6 +24,7 @@ export const actions = {
 		const username = formData.get('username');
 		const website = formData.get('website');
 		const avatarUrl = formData.get('avatarUrl');
+		const newPass = formData.get('password');
 
 		const session = await getSession();
 
@@ -35,6 +36,13 @@ export const actions = {
 			avatar_url: avatarUrl,
 			updated_at: new Date()
 		});
+		console.log(newPass);
+
+		if (newPass) {
+			await supabase.auth.updateUser({
+				password: newPass
+			});
+		}
 
 		if (error) {
 			return fail(500, {

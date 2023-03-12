@@ -8,6 +8,13 @@
 
 	$: viewName = $page.params.viewName;
 
+	export let form;
+	export let data;
+
+	const url = data.url;
+
+	console.log(url);
+
 	let views = {
 		login: {
 			id: 'sign_in',
@@ -46,7 +53,10 @@
 	const supabaseClient = $page.data.supabase;
 	const signInWithProvider = async (provider) => {
 		const { data, error } = await supabaseClient.auth.signInWithOAuth({
-			provider: provider
+			provider: provider,
+			options: {
+				redirectTo: url
+			}
 		});
 	};
 	const submitSocialLogin = async ({ action, cancel }) => {
@@ -65,9 +75,6 @@
 		}
 		cancel();
 	};
-
-	export let form;
-	export let data;
 </script>
 
 <main class=" h-full">
@@ -77,11 +84,11 @@
 			<a href="/dashboard">Dashboard</a>
 		{:else}
 			<h3>Login</h3>
-			<form class="py-5 max-w-sm" action="?/signin" method="POST">
+			<form class="max-w-sm py-5" action="?/signin" method="POST">
 				{#if form?.success}
 					<p>Success</p>
 				{:else if form?.error}
-					<aside class="m-5 alert variant-ghost-primary">
+					<aside class="alert variant-ghost-primary m-5">
 						<div><Icon icon="ic:round-warning" /></div>
 						<div class="alert-message">
 							<h3>{form.error}</h3>
