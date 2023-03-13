@@ -1,1 +1,14 @@
 Skeleton for UI comps like drawers and all
+
+commands -----------------------
+Git add . 
+git commit -m " " 
+git push origin singal 
+git checkout main 
+git pull origin main 
+git merge singal
+
+git push origin main 
+git checkout singal 
+git rebase main
+---------------------------------

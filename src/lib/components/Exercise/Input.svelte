@@ -1,7 +1,7 @@
 <script>
 	import { drawerStore,RangeSlider } from '@skeletonlabs/skeleton';
 	export let exercise ;
-	export let muscle ;
+	
 	let wt_value = 2.5;
 	let max = 40;
 
