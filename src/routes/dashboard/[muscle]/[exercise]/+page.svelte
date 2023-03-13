@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-
+	
 	function convertLtoE(exercise) {
 		return exercise.replace(/-/g, ' ');
 	}
@@ -36,15 +36,23 @@
 			return false;
 		}
 	}
+
 </script>
 
+
+
 {#if validateMuscle(muscle)}
-	<h3>muscle: {muscle}</h3>
+	<h1>{muscle[0].toUpperCase() + muscle.substr(1)}</h1> 
+	
 
 	{#if validateExercise(exercise)}
-		<h3>exercise: {exercise}</h3>
+	<div class="grid grid-cols-4 gap-2 pt-2">
+		<div class="text-4xl col-span-3">{exercise[0].toUpperCase() + exercise.substr(1)}</div>
+		<a href="/dashboard/{muscle}/{$page.params.exercise}/add">
+		<button type="button" class="btn-icon variant-filled" ><i class="bi bi-plus-lg"></i></button></a>
+	</div>
 	{:else}
-		<h3>No exercise named {exercise}</h3>
+		<h3>No exercise named {exercise[0].toUpperCase() + exercise.substr(1)}</h3>
 		<h3>Try these:</h3>
 		{#each exercises[muscle] as exercise}
 			<div>
@@ -60,3 +68,5 @@
 		</div>
 	{/each}
 {/if}
+
+
