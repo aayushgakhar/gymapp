@@ -1,5 +1,6 @@
 <script>
-    import Input from '$lib/components/exercise/Input.svelte';
+    import Input from './Input.svelte';
+    
     import { page } from '$app/stores';
     function convertLtoE(exercise) {
 		return exercise.replace(/-/g, ' ');
