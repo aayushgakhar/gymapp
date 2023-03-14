@@ -1,9 +1,10 @@
 <script>
 	import { page } from '$app/stores';
-	
+	import Table from './Table.svelte';
 	function convertLtoE(exercise) {
 		return exercise.replace(/-/g, ' ');
 	}
+	export let data;
 
 	$: muscle = $page.params.muscle;
 	$: exercise = convertLtoE($page.params.exercise);
@@ -51,6 +52,13 @@
 		<a href="/dashboard/{muscle}/{$page.params.exercise}/add">
 		<button type="button" class="btn-icon variant-filled" ><i class="bi bi-plus-lg"></i></button></a>
 	</div>
+	
+	
+
+	<Table data={data.logs} />
+	
+	
+
 	{:else}
 		<h3>No exercise named {exercise[0].toUpperCase() + exercise.substr(1)}</h3>
 		<h3>Try these:</h3>
