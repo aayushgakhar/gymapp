@@ -39,6 +39,7 @@
 
 <Drawer>
 	<Navigation />
+	<LightSwitch class='ml-8'/>
 </Drawer>
 <Toast />
 
