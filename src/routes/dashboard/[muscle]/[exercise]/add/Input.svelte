@@ -29,9 +29,9 @@
 	<select class="select" size="3" value="" name="reps">
 		<option value="1">6</option>
 		<option value="2">8</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
+		<option value="3">10</option>
+		<option value="4">12</option>
+		<option value="5">15</option>
 	</select>
 	
 </div>
