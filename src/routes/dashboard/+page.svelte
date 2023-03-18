@@ -4,14 +4,24 @@
 </script>
 
 {#if $page.data.session}
-	<h1>dashboard</h1>
-	<p>
+	<h1>Dashboard</h1>
+	<div>
+
+
+		<div class="">Remember to start with a weight 
+			that you can comfortably lift and gradually increase 
+			the weight as you get stronger. Also, make sure to 
+			use proper form to avoid injury.💪</div>
 		{#each muscles as muscle}
-			<div>
-				<a href="/dashboard/{muscle}">{muscle}</a>
+		<a href="/dashboard/{muscle}">
+			<div class="card card-hover p-5 m-4  variant-soft-surface">
+		
+				<a href="/dashboard/{muscle}" class="card-header">{muscle}</a>
 			</div>
+		</a>
 		{/each}
-	</p>
+	</div>
+	
 {:else}
 	<h1>Access Denied</h1>
 	<p>

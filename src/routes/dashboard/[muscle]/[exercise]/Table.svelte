@@ -18,6 +18,8 @@
 				<th>Reps</th>
 				<th>Weight</th>
 				<th>Note</th>
+				<th>Remove</th>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -45,11 +47,6 @@
 				</tr>
 			{/each}
 		</tbody>
-		<tfoot>
-			<tr>
-				<th colspan="3">Calculated Total Weight</th>
-				<td></td>
-			</tr>
-		</tfoot>
+		
 	</table>
 </div>

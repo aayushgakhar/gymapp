@@ -33,9 +33,12 @@
 	<h3>muscle: {muscle}</h3>
 
 	{#each exercises[muscle] as exercise}
-		<div>
-			<a href="/dashboard/{muscle}/{convertEtoL(exercise)}">{exercise}</a>
+	<a href="/dashboard/{muscle}/{convertEtoL(exercise)}  ">
+		<div class="card card-hover p-5 m-4 variant-soft-surface">
+			
+			<a href="/dashboard/{muscle}/{convertEtoL(exercise)}  " class="card-header">{exercise}</a>
 		</div>
+	</a>
 	{/each}
 {:else}
 	<h1>No muscle named {muscle}</h1>
