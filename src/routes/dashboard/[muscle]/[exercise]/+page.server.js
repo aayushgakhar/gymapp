@@ -21,54 +21,21 @@ export const load = async({ url, locals: { supabase, getSession } }) => {
 };
 
 export const actions = {
-    update: async({ request, locals: { supabase, getSession } }) => {
+    update: async({ url, request, locals: { supabase, getSession } }) => {
         const formData = await request.formData();
-        const fullName = formData.get('fullName');
-        const username = formData.get('username');
-        const website = formData.get('website');
-        const avatarUrl = formData.get('avatarUrl');
-        const newPass = formData.get('password');
+        const timestp = formData.get('time');
 
         const session = await getSession();
         assert(session);
-        const { error } = await supabase.from('profiles').upsert({
-
-            id: session.user.id,
-            full_name: fullName,
-            username,
-            website,
-            avatar_url: avatarUrl,
-            updated_at: new Date()
-        });
-        console.log(newPass);
-
-        if (newPass) {
-            await supabase.auth.updateUser({
-                password: newPass
-            });
-        }
+        const { error } = await supabase
+            .from('logs')
+            .delete()
+            .eq('uuid', session.user.id)
+            .eq('created_at', timestp);
 
         if (error) {
-            return fail(500, {
-                fullName,
-                username,
-                website,
-                avatarUrl
-            });
-        }
-
-        return {
-            fullName,
-            username,
-            website,
-            avatarUrl
-        };
-    },
-    signout: async({ locals: { supabase, getSession } }) => {
-        const session = await getSession();
-        if (session) {
-            await supabase.auth.signOut();
-            throw redirect(303, '/');
+            return fail(500, error.message);
         }
     }
+
 };

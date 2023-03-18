@@ -5,7 +5,7 @@
     function convertLtoE(exercise) {
 		return exercise.replace(/-/g, ' ');
 	}
-    export let data;
+    
     // console.log(data);
     $: muscle = $page.params.muscle;
 	$: exercise = convertLtoE($page.params.exercise);

@@ -2,6 +2,7 @@
 	import { } from '@skeletonlabs/skeleton';
     
     export let data;
+	let logForm;
     // console.log(data);
 </script>
 
@@ -12,19 +13,35 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Position</th>
-				<th>Name</th>
-				<th>Symbol</th>
+				<th>Date</th>
+				<th>Sets</th>
+				<th>Reps</th>
 				<th>Weight</th>
+				<th>Note</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each data as row}
 				<tr>
-					<td>{row.id}</td>
-					<td>{row.exercise}</td>
-					<td>{row.rep}</td>
+					<td>{(row.created_at.slice(0,10))}</td>
 					<td>{row.sets}</td>
+					<td>{row.reps}</td>
+					<td>{row.weight}</td>
+					<td>{row.note}</td>
+					<td> 
+						<form
+							class="max-w-sm"
+							method="post"
+							action="?/update"
+							bind:this={logForm}
+						>
+						<button type="submit" value="{row.created_at}" name="time">
+							<h3>
+						<i class="bi bi-x-circle-fill " name="uuid" value={row.uuid}></i> 
+					</h3>
+						</button>
+						</form>
+					</td>
 				</tr>
 			{/each}
 		</tbody>
